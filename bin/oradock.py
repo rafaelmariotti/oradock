@@ -29,7 +29,9 @@ Operations:
     restart
                                         Restart and configure a container that already has datafiles restored.
     create
-                                        Create and run an Oracle image from the start. Feel free to change Dockerfile like you want.
+                                        Create an Oracle image.
+    create database
+                                        Create a new empty database.
 
 Options:
     -k ORADOCK_HOME, --oradock-home=ORADOCK_HOME

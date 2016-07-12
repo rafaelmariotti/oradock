@@ -1,0 +1,13 @@
+db_name=${database}
+audit_file_dest='/u01/app/oracle/admin/${database}/adump'
+audit_trail='db'
+db_block_size=8192
+db_domain=''
+db_recovery_file_dest='${data_dir}/${database}/fast_recovery_area'
+db_recovery_file_dest_size=2G
+diagnostic_dest='/u01/app/oracle'
+open_cursors=300 
+remote_login_passwordfile='EXCLUSIVE'
+undo_tablespace='UNDOTBS1'
+control_files='${data_dir}/${database}/controlfile/control01.ctl','${data_dir}/${database}/controlfile/control02.ctl'
+compatible='11.2.0'

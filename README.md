@@ -29,6 +29,10 @@ This project was build with the following software versions (any difference may 
 or
         apt-get install git
 
+* Install all python modules required:
+
+        pip install boto docopt docker-py
+
 * Clone the repository:
 
         git clone https://github.com/rafaelmariotti/oradock.git /opt/oradock

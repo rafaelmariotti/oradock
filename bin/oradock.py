@@ -98,6 +98,7 @@ try:
     from shutil import copyfile
     from shutil import copytree
     from shutil import rmtree
+    from shutil import chown
     from optparse import OptionParser
     from boto.s3.connection import S3Connection
     from docker import Client
@@ -403,6 +404,22 @@ def create_directory(directory): #create directory to save s3 files
                 sys.exit(-1)
 
 
+def change_directory_owner(directory, uid, gid):
+    if os.path.exists(directory):
+        try:
+            os.chown(directory, uid, gid)
+        except OSError as error:
+            if error.errno == errno.ENOENT :
+                logging.error('error to create directory \'%s\'. No such file or directory' % directory)
+                sys.exit(-1)
+            elif error.errno == errno.EACCES:
+                logging.error('error to create directory \'%s\'. Permission denied' % directory)
+                sys.exit(-1)
+            else:
+                logging.error('error to create directory \'%s\'. %s' % (directory, str(error)))
+                sys.exit(-1)
+
+
 def set_docker_volumes(database_list, datafile_dir, oradock_home): #configure all volumes required to start the container
     container_volumes=[]
     container_volumes_config=[]
@@ -557,6 +574,8 @@ def restore_or_restart_or_create_database(args, database_list, docker_client): #
     for database in args['DATABASE'].split(','):
         create_directory(args['--datafile-dir']+'/'+database)    
         create_directory('/var/log/oracle/' + database)
+        change_directory_owner(args['--datafile-dir']+'/'+database, 501, 503)
+        change_directory_owner('/var/log/oracle/' + database, 501, 503)
     (container_volumes, container_volumes_config)=set_docker_volumes(database_list, args['--datafile-dir'], args['--oradock-home'])
     container_port_config={1521 : args['--port']}
 

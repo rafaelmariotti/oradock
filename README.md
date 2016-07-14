@@ -122,7 +122,15 @@ or
 	    --animation=ANIMATION_NUMBER
 	                                        Choose your own animation while creating Oracle docker image, between 1 and 2 [default: 1].
 
-## 5. Considerations
+## 5. Acknowledgment
+
+I would like to express my gratitude to the following friends who helped me to build this project:
+
+Ricardo Reis
+Nelson Estevam
+Giovani Dardani
+
+## 6. Considerations
 
 * It is highly recommended to create partitions for each database files
 * oradock has an interface with Amazon Simple Storage Service (Amazon S3), which can be very helpfull on restores if you are storing your backups in buckets

@@ -168,16 +168,14 @@ def download_file(s3_file, file_dest_path): #download a single file from s3 buck
         sys.exit(-1)
 
 
-def get_s3_info(s3_bucket):
+def get_s3_full_path_dir(s3_bucket):
     s3_bucket_name=s3_bucket.split('/')[2]
     s3_full_path_dir='/'.join(s3_bucket.split('/')[s3_bucket.split('/').index(s3_bucket_name)+1:])
-    s3_backup_dir = s3_bucket.split('/')[-1]
-    return s3_bucket_name, s3_full_path_dir, s3_backup_dir
+    return s3_full_path_dir,s3_bucket_name
 
 
 def download_s3(database_list, backup_dir, access_key, secret_key): #download all files from s3 bucket
     s3connection=create_s3conn(access_key, secret_key)
-
     for database, info in database_list.items():
         memory = info.get('memory')
         service_name = info.get('service_name')
@@ -185,9 +183,9 @@ def download_s3(database_list, backup_dir, access_key, secret_key): #download al
         backup_dir = info.get('backup_directory')
         logging.debug('looking for backup files in s3 bucket \'%s\' for database %s' % (s3_bucket, database))
 
-        (s3_bucket_name, s3_full_path_dir, s3_backup_dir)=get_s3_info(s3_bucket)
+        (s3_full_path_dir,s3_bucket_name)=get_s3_full_path_dir(s3_bucket)
         s3_bucket_conn=retrieve_s3bucket_info(s3connection, s3_bucket_name)
-        create_directory(backup_dir +'/'+ database +'/'+ s3_backup_dir)
+        create_directory(backup_dir)
 
         for s3_file in s3_bucket_conn.list(s3_full_path_dir,''):
             s3_file_name = s3_file.name.split('/')[-1]
@@ -336,7 +334,7 @@ def check_restore_params(args, docker_client):
     check_args_count(args['DATABASE'], args['MEMORY'])
     check_args_count(args['DATABASE'], args['SERVICE_NAME'])
     check_args_count(args['DATABASE'], args['--backup-directory'])
-    check_file_or_directory(args['--backup-directory'], args['DATABASE'])
+    #check_file_or_directory(args['--backup-directory'], args['DATABASE'])
     check_file_or_directory(args['--oradock-home'], args['DATABASE'])
     check_memory(args['MEMORY'])
     check_port(args['--port'])

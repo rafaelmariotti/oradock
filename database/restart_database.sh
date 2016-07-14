@@ -31,7 +31,13 @@ recreate(){
         create pfile='/tmp/old_pfile${database}.ora' from spfile='${spfile}';
         exit;
 EOF
-      cat /tmp/old_pfile${database}.ora | grep -v -e "^*.sga_max_size=" -e "^*.sga_target=" -e "^*.pga_aggregate_target=" -e "^*.processes=" > /tmp/new_pfile${database}.ora
+
+    if [ -e /tmp/old_pfile${database}.ora ]; then
+	  cat /tmp/old_pfile${database}.ora | grep -v -e "^*.sga_max_size=" -e "^*.sga_target=" -e "^*.pga_aggregate_target=" -e "^*.processes=" > /tmp/new_pfile${database}.ora
+    else
+      echo "$(date +"%Y-%m-%d %H:%M:%S") ERROR: spfile does not exists"
+      exit 1
+	fi
 
       rm -f ${spfile}
     else

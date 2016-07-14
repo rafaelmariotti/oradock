@@ -60,8 +60,13 @@ EOF
 
     rm -f $ORACLE_HOME/dbs/spfile${database}.ora
 
+	if [ -e /tmp/old_pfile${database}.ora ]; then
+	  grep -v "^${database}.__" /tmp/old_pfile${database}.ora > /tmp/new_pfile${database}.ora
+	else
+	  echo "$(date +"%Y-%m-%d %H:%M:%S") ERROR: spfile does not exists"
+	  exit 1
+	fi
     #comment all parameters to rewrite
-    grep -v "^${database}.__" /tmp/old_pfile${database}.ora > /tmp/new_pfile${database}.ora
     sed -i "s|\*.control_files=|\#\*.control_files=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.db_create_file_dest=|\#\*.db_create_file_dest=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.db_file_name_convert=|\#\*.db_file_name_convert=|g" /tmp/new_pfile${database}.ora

@@ -264,7 +264,7 @@ def check_s3_bucket(s3_access_key, s3_secret_key, s3_bucket, database):
     s3connection.close
 
 
-def check_file_or_directory(file_or_dir, database):
+def check_file_or_directories_warn(file_or_dir, database):
     if file_or_dir.find('/backup/$DATABASE')==0:
         file_or_dir=''
         for database_name in database.split(','):
@@ -273,7 +273,19 @@ def check_file_or_directory(file_or_dir, database):
     
     for path in file_or_dir.split(','):
         if not os.path.exists(file_or_dir):
-            logging.error('file or directory does not exists (%s)' % file_or_dir)
+            logging.warn('file or directory \'%s\' does not exists' % file_or_dir)
+
+
+def check_file_or_directories_error(file_or_dir, database):
+    if file_or_dir.find('/backup/$DATABASE')==0:
+        file_or_dir=''
+        for database_name in database.split(','):
+            file_or_dir+='/backup/'+database_name+','
+        file_or_dir=file_or_dir.rstrip(',')
+
+    for path in file_or_dir.split(','):
+        if not os.path.exists(file_or_dir):
+            logging.error('file or directory \'%s\' does not exists' % file_or_dir)
             sys.exit(-1)
 
 
@@ -284,6 +296,7 @@ def check_memory(memory):
     if total_percent_memory > 100 or total_percent_memory < 0:
         logging.error('memory exceeds server capacity')
         sys.exit(-1)
+
 
 def check_port(port):
     sock=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -334,8 +347,8 @@ def check_restore_params(args, docker_client):
     check_args_count(args['DATABASE'], args['MEMORY'])
     check_args_count(args['DATABASE'], args['SERVICE_NAME'])
     check_args_count(args['DATABASE'], args['--backup-directory'])
-    #check_file_or_directory(args['--backup-directory'], args['DATABASE'])
-    check_file_or_directory(args['--oradock-home'], args['DATABASE'])
+    check_file_or_directories_warn(args['--backup-directory'], args['DATABASE'])
+    check_file_or_directories_error(args['--oradock-home'], args['DATABASE'])
     check_memory(args['MEMORY'])
     check_port(args['--port'])
     check_container(docker_client, args)
@@ -344,7 +357,7 @@ def check_restore_params(args, docker_client):
 def check_restart_params(args, docker_client):
     check_args_count(args['DATABASE'], args['MEMORY'])
     check_args_count(args['DATABASE'], args['SERVICE_NAME'])
-    check_file_or_directory(args['--oradock-home'], args['DATABASE'])
+    check_file_or_directories_error(args['--oradock-home'], args['DATABASE'])
     check_memory(args['MEMORY'])
     check_port(args['--port'])
     check_container(docker_client, args)
@@ -359,7 +372,7 @@ def check_create_image_params(args, docker_client):
 def check_create_database_params(args, docker_client):
     check_args_count(args['DATABASE'], args['MEMORY'])
     check_args_count(args['DATABASE'], args['SERVICE_NAME'])
-    check_file_or_directory(args['--oradock-home'], args['DATABASE'])
+    check_file_or_directories_error(args['--oradock-home'], args['DATABASE'])
     check_memory(args['MEMORY'])
     check_port(args['--port'])
     check_container(docker_client, args)
@@ -392,13 +405,13 @@ def create_directory(directory): #create directory to save s3 files
             os.makedirs(directory)
         except OSError as error:
             if error.errno == errno.ENOENT :
-                logging.error('error to create directory \'%s\'. No such file or directory' % directory)
+                logging.error('error creating directory \'%s\'. No such file or directory' % directory)
                 sys.exit(-1)
             elif error.errno == errno.EACCES:
-                logging.error('error to create directory \'%s\'. Permission denied' % directory)
+                logging.error('error creating directory \'%s\'. Permission denied' % directory)
                 sys.exit(-1)
             else:
-                logging.error('error to create directory \'%s\'. %s' % (directory, str(error)))
+                logging.error('error creating directory \'%s\'. %s' % (directory, str(error)))
                 sys.exit(-1)
 
 
@@ -407,15 +420,10 @@ def change_directory_owner(directory, uid, gid):
         try:
             os.chown(directory, uid, gid)
         except OSError as error:
-            if error.errno == errno.ENOENT :
-                logging.error('error to create directory \'%s\'. No such file or directory' % directory)
-                sys.exit(-1)
-            elif error.errno == errno.EACCES:
-                logging.error('error to create directory \'%s\'. Permission denied' % directory)
-                sys.exit(-1)
+            if error.errno == errno.EPERM:
+                logging.warn('could not change directory owner \'%s\'. Permission denied' % directory)
             else:
-                logging.error('error to create directory \'%s\'. %s' % (directory, str(error)))
-                sys.exit(-1)
+                logging.warn('could not change directory owner \'%s\'. %s' % (directory, str(error)))
 
 
 def set_docker_volumes(database_list, datafile_dir, oradock_home): #configure all volumes required to start the container

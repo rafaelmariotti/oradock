@@ -31,14 +31,7 @@ recreate(){
         create pfile='/tmp/old_pfile${database}.ora' from spfile='${spfile}';
         exit;
 EOF
-
-    if [ -e /tmp/old_pfile${database}.ora ]; then
-	  cat /tmp/old_pfile${database}.ora | grep -v -e "^*.sga_max_size=" -e "^*.sga_target=" -e "^*.pga_aggregate_target=" -e "^*.processes=" > /tmp/new_pfile${database}.ora
-    else
-      echo "$(date +"%Y-%m-%d %H:%M:%S") ERROR: spfile does not exists"
-      exit 1
-	fi
-
+      cat /tmp/old_pfile${database}.ora | grep -v -e "^*.sga_max_size=" -e "^*.sga_target=" -e "^*.pga_aggregate_target=" -e "^*.processes=" > /tmp/new_pfile${database}.ora
       rm -f ${spfile}
     else
       echo "$(date +"%Y-%m-%d %H:%M:%S") WARN: there are no spfile restored. Recreating spfile to startup instance."
@@ -47,7 +40,6 @@ EOF
       echo "*.db_name='${database}'" > /tmp/new_pfile${database}.ora
       echo "*.control_files='${data_dir}/${database}/controlfile/control01.ctl','${data_dir}/${database}/controlfile/control02.ctl'" >> /tmp/new_pfile${database}.ora
       echo "*.db_create_file_dest='${data_dir}/${database}/datafile'" >> /tmp/new_pfile${database}.ora
-      #echo "*.db_file_name_convert='+DATA','${data_dir}/${database}/datafile','+RECO','${data_dir}/${database}/fast_recovery_area','+REDO','${data_dir}/${database}/redolog'" >> /tmp/new_pfile${database}.ora
       echo "*.db_create_online_log_dest_1='${data_dir}/${database}/redolog'" >> /tmp/new_pfile${database}.ora
       echo "*.db_create_online_log_dest_2='${data_dir}/${database}/redolog'" >> /tmp/new_pfile${database}.ora
       echo "*.db_create_online_log_dest_3='${data_dir}/${database}/redolog'" >> /tmp/new_pfile${database}.ora

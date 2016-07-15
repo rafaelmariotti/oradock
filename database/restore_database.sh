@@ -85,8 +85,8 @@ EOF
     sed -i "s|\*.memory_max_target=|\#\*.memory_max_target=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.memory_target=|\#\*.memory_target=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.processes=|\#\*.processes=|g" /tmp/new_pfile${database}.ora
-
-	#setting min parameters to restore
+    sed -i "s|\*.use_large_pages=|\#\*.use_large_pages=|g" /tmp/new_pfile${database}.ora
+    #setting min parameters to restore
     echo "*.control_files='${data_dir}/${database}/controlfile/control01.ctl','${data_dir}/${database}/controlfile/control02.ctl'" >> /tmp/new_pfile${database}.ora
     echo "*.db_create_file_dest='${data_dir}/${database}/datafile'" >> /tmp/new_pfile${database}.ora
     echo "*.db_create_online_log_dest_1='${data_dir}/${database}/redolog'" >> /tmp/new_pfile${database}.ora

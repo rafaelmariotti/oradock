@@ -423,6 +423,7 @@ def change_directory_owner(directory, uid, gid):
 
         for root, directories, files in os.walk(directory):
             try:
+                os.chown(root, uid, gid)
                 for each_directory in directories:
                     os.chown(root +'/'+ each_directory, uid, gid)
                 for each_files in files:

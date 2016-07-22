@@ -48,11 +48,11 @@ or
 ## 4. Options
 
 	Usage:
-	    oradock2.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]
-	    oradock2.py create image IMAGE_NAME PASSWORD [options]
-	    oradock2.py create database DATABASE PASSWORD MEMORY SERVICE_NAME [options]
-	    oradock2.py (-h | --help)
-	    oradock2.py --version
+	    oradock.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]
+	    oradock.py create image IMAGE_NAME PASSWORD [options]
+	    oradock.py create database DATABASE PASSWORD MEMORY SERVICE_NAME [options]
+	    oradock.py (-h | --help)
+	    oradock.py --version
 	
 	Arguments:
 	    DATABASE
@@ -101,6 +101,8 @@ or
 	                                        s3 bucket directory to download the backup files.
 	    -S SECRET_KEY, --s3-secret-key=SECRET_KEY
 	                                        Secret key to download from s3 bucket.
+		-P PARALLEL, --parallel=PARALLEL
+                                        Set the parallel level to restore backups [default: 1].
 	
 	Restore, restart & create database options:
 	    -D DATAFILE_DIR, --datafile-dir=DATAFILE_DIR

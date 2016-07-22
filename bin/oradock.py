@@ -588,11 +588,13 @@ def restore_or_restart_or_create_database(args, database_list, docker_client): #
         call_process_build(docker_pull, process_args, args['--animation'])
 
     logging.debug('defining volumes to mount into container')
-    for database in args['DATABASE'].split(','):
+
+    for database, info in database_list.items()::
         create_directory(args['--datafile-dir']+'/'+database)    
         create_directory('/var/log/oracle/' + database)
         change_directory_owner(args['--datafile-dir']+'/'+database, 501, 503)
         change_directory_owner('/var/log/oracle/' + database, 501, 503)
+        change_directory_owner(info.get('backup_directory'), 501, 503)
     (container_volumes, container_volumes_config)=set_docker_volumes(database_list, args['--datafile-dir'], args['--oradock-home'])
     container_port_config={1521 : args['--port']}
 

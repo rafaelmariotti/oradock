@@ -58,6 +58,8 @@ Restore options:
                                         s3 bucket directory to download the backup files.
     -S SECRET_KEY, --s3-secret-key=SECRET_KEY
                                         Secret key to download from s3 bucket.
+    -P PARALLEL, --parallel=PARALLEL
+                                        Set the parallel level to restore backups [default: 1]. 
 
 Restore, restart & create database options:
     -D DATAFILE_DIR, --datafile-dir=DATAFILE_DIR
@@ -417,13 +419,21 @@ def create_directory(directory): #create directory to save s3 files
 
 def change_directory_owner(directory, uid, gid):
     if os.path.exists(directory):
-        try:
-            os.chown(directory, uid, gid)
-        except OSError as error:
-            if error.errno == errno.EPERM:
-                logging.warn('could not change directory owner \'%s\'. Permission denied' % directory)
-            else:
-                logging.warn('could not change directory owner \'%s\'. %s' % (directory, str(error)))
+        msg_flag=0
+
+        for root, directories, files in os.walk(directory):
+            try:
+                for each_directory in directories:
+                    os.chown(root +'/'+ each_directory, uid, gid)
+                for each_files in files:
+                    os.chown(root + '/'+ each_files, uid, gid)
+            except OSError as error:
+                if msg_flag==0:
+                    if error.errno == errno.EPERM:
+                        logging.warn('could not change permissions on directory \'%s\'. Permission denied' % directory)
+                    else:
+                        logging.warn('could not change permissions on directory\'%s\'. %s' % (directory, str(error)))
+                    msg_flag=1
 
 
 def set_docker_volumes(database_list, datafile_dir, oradock_home): #configure all volumes required to start the container
@@ -608,6 +618,7 @@ def restore_or_restart_or_create_database(args, database_list, docker_client): #
     command_args.append(args['--datafile-dir'])
     command_args.append(args['--spfile-name'])
     command_args.append(args['--control-file-name'])
+    command_args.append(args['--parallel'])
     command_args.append(' > /tmp/'+script_name+'_database.log')
 
     command = '/bin/bash '+ args['--oradock-home'] +'/database/'+ script_name + '_database.sh '+ ' '.join(command_args)

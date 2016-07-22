@@ -24,7 +24,6 @@ RUN echo -e "\n#Oracle settings"                        >> /etc/sysctl.conf ;\
     echo -e "fs.file-max = 6815744"                     >> /etc/sysctl.conf ;\
     echo -e "fs.aio-max-nr = 6291456"                   >> /etc/sysctl.conf ;\
     echo -e "net.ipv4.ip_local_port_range = 9000 65500" >> /etc/sysctl.conf ;\
-    echo -e "vm.swappiness = 10"                        >> /etc/sysctl.conf ;\
     echo -e "vm.min_free_kbytes = 102400"               >> /etc/sysctl.conf
 
 RUN echo -e "\n#Oracle settings"				>> /etc/security/limits.conf ;\

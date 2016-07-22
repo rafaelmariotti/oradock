@@ -10,6 +10,7 @@ restore(){
   data_dir=$6
   spfile_backup_name=$7
   controlfile_backup_name=$8
+  parallel_level=$9
   position=1
 
   cp ${script_home}/conf/listener/listener_template.ora $ORACLE_HOME/network/admin/listener.ora
@@ -118,8 +119,24 @@ EOF
       sql 'alter database flashback off';
 EOF
 
+    sqlplus -s / as sysdba > /dev/null << EOF
+      set echo off pagesize 0;
+      set heading off;
+      set feedback off;
+      spool '/tmp/status_block_change_tracking.log';
+      select status from v\$block_change_tracking;
+EOF
+
+    if [ $(cat /tmp/status_block_change_tracking.log) == "ENABLED" ]
+    then
+      sqlplus / as sysdba >> /tmp/restore_${database}.log << EOF
+        alter database disable block change tracking;
+EOF
+    fi
+    rm -f /tmp/status_block_change_tracking.log
+
     channels=""
-    for ((cpu_count=1; cpu_count <= $(cat /proc/cpuinfo | grep processor | wc -l); cpu_count++))
+    for ((cpu_count=1; cpu_count <= ${parallel_level}; cpu_count++))
     do
       channels=$(echo -e "${channels} allocate channel channel${cpu_count} device type disk;")
     done
@@ -186,8 +203,9 @@ main(){
   data_dir=$6
   spfile_backup_name=$7
   controlfile_backup_name=$8
+  parallel_level=$9
 
-  restore ${backup_dir} ${db_restore} ${db_memory_distribution} ${db_main_service} ${script_home} ${data_dir} ${spfile_backup_name} ${controlfile_backup_name}
+  restore ${backup_dir} ${db_restore} ${db_memory_distribution} ${db_main_service} ${script_home} ${data_dir} ${spfile_backup_name} ${controlfile_backup_name} ${parallel_level}
 }
 
-main $1 $2 $3 $4 $5 $6 $7 $8
+main $1 $2 $3 $4 $5 $6 $7 $8 $9

@@ -120,20 +120,8 @@ EOF
 EOF
 
     sqlplus -s / as sysdba > /dev/null << EOF
-      set echo off pagesize 0;
-      set heading off;
-      set feedback off;
-      spool '/tmp/status_block_change_tracking.log';
-      select status from v\$block_change_tracking;
+      alter database disable block change tracking;
 EOF
-
-    if [ $(cat /tmp/status_block_change_tracking.log) == "ENABLED" ]
-    then
-      sqlplus / as sysdba >> /tmp/restore_${database}.log << EOF
-        alter database disable block change tracking;
-EOF
-    fi
-    rm -f /tmp/status_block_change_tracking.log
 
     channels=""
     for ((cpu_count=1; cpu_count <= ${parallel_level}; cpu_count++))

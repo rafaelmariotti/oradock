@@ -589,7 +589,7 @@ def restore_or_restart_or_create_database(args, database_list, docker_client): #
 
     logging.debug('defining volumes to mount into container')
 
-    for database, info in database_list.items()::
+    for database, info in database_list.items():
         create_directory(args['--datafile-dir']+'/'+database)    
         create_directory('/var/log/oracle/' + database)
         change_directory_owner(args['--datafile-dir']+'/'+database, 501, 503)

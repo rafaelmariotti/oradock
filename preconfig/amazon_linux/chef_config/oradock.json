@@ -1,3 +1,3 @@
 {
-  "run_list": [ "recipe[yum]", "recipe[pyenv]", "recipe[filesystem]", "recipe[oradock_chef::oradock]" ]
+  "run_list": [ "recipe[yum]", "recipe[pyenv]", "recipe[filesystem]", "recipe[oradock_chef]" ]
 }

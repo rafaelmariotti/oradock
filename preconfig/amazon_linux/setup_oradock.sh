@@ -6,7 +6,7 @@ cd ${chef_base}/chef-repo
 knife cookbook create oradock_chef
 
 cp ${oradock_home}/preconfig/amazon_linux/chef_config/attributes/oradock.rb ${chef_base}/chef-repo/cookbooks/oradock_chef/attributes/oradock.rb
-cp ${oradock_home}/preconfig/amazon_linux/chef_config/recipes/oradock.rb ${chef_base}/chef-repo/cookbooks/oradock_chef/recipes/oradock.rb
+cp ${oradock_home}/preconfig/amazon_linux/chef_config/recipes/*.rb ${chef_base}/chef-repo/cookbooks/oradock_chef/recipes/
 cp ${oradock_home}/preconfig/amazon_linux/chef_config/metadata.rb ${chef_base}/chef-repo/cookbooks/oradock_chef/metadata.rb
 
 cd ${chef_base}/chef-repo/cookbooks/

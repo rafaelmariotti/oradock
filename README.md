@@ -21,7 +21,40 @@ This project was build with the following software versions (any difference may 
 
 * Oracle install binary files **(only for ``create image`` command)**
 
-## 3. Installation
+## 3. Install using Chef
+
+You can configure all your environment using chef recipes (installing all the prerequisites too). Unfortunately, we don't have a chef server to provide the scripts for you, so you have to install Chef on your environment and run the oradock recipe. But do not worry, we have everything ready for you! 
+
+But first, check if our chef recipes supports your Linux distribution:
+
+		Amazon Linux
+
+* Install git:
+
+		yum install git -y
+
+* Clone the repository:
+
+        git clone https://github.com/rafaelmariotti/oradock.git /opt/oradock
+
+* Edit the file ``/opt/oradock/preconfig/amazon_linux/chef_config/attributes/oradock.rb`` and set your backup and data directories and their respective devices, like:
+
+		default['backup']['directory'] = '/backup'
+		default['backup']['device']    = '/dev/sdb'
+		default['data']['directory']   = '/data'
+		default['data']['device']      = '/dev/sdc'
+
+* Install and configure Chef:
+
+		bash /opt/oradock/preconfig/amazon_linux/setup_chef.sh
+
+* Install and configure Oradock:
+
+		bash /opt/oradock/preconfig/amazon_linux/setup_oradock.sh
+
+And it's done!
+
+## 3. Install manually
 
 * Install git:
 

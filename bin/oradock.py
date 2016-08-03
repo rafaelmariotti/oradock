@@ -114,7 +114,8 @@ def set_log(log_level): #set log level to print
     if not isinstance(log_level_number, int):
         print('ERROR: Invalid log level \'%s\'' % log_level.upper())
         sys.exit(-1)
-    logging.basicConfig(level=log_level.upper(), format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    logging.basicConfig(level=log_level.upper(), format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S', stream=sys.stdout)
+	logging.StreamHandler(sys.stdout)
 
 
 ## s3 functions

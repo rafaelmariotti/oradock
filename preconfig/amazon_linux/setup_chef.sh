@@ -6,7 +6,7 @@ wget https://www.opscode.com/chef/install.sh
 bash ${chef_base}/install.sh
 wget http://github.com/opscode/chef-repo/tarball/master
 tar -zxf master
-mv chef-chef-repo* chef-repo
+mv chef-*-chef-repo-* chef-repo
 rm -f master
 cd ${chef_base}/chef-repo
 mkdir .chef

@@ -153,7 +153,7 @@ def download_file(s3_file, file_dest_path): #download a single file from s3 buck
             logging.warning('file \'%s\' already exists' % file_dest_path)
             return
     else:
-        logging.info('download file \'%s\' (%s mb)' % (file_dest_path, str(round(int(s3_file.size)/(1024*1024),2))))
+        logging.info('downloading file \'%s\' (%s mb)' % (file_dest_path, str(round(int(s3_file.size)/(1024*1024),2))))
 
     try:
         s3_file.get_contents_to_filename(file_dest_path)

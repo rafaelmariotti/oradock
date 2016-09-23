@@ -5,11 +5,11 @@ oradock project is an Oracle Database 11g manager system integrated with Docker,
 For more information, please visit https://github.com/rafaelmariotti/docker-compose-restore-database-oracle-ee-11g
 
 Usage:
-    oradock2.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]
-    oradock2.py create image IMAGE_NAME PASSWORD [options]
-    oradock2.py create database DATABASE PASSWORD MEMORY SERVICE_NAME [options]
-    oradock2.py (-h | --help)
-    oradock2.py --version
+    oradock.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]
+    oradock.py create image IMAGE_NAME PASSWORD [options]
+    oradock.py create database DATABASE PASSWORD MEMORY SERVICE_NAME [options]
+    oradock.py (-h | --help)
+    oradock.py --version
 
 Arguments:
     DATABASE
@@ -101,7 +101,6 @@ try:
     from shutil import copytree
     from shutil import rmtree
     from shutil import chown
-    from optparse import OptionParser
     from boto.s3.connection import S3Connection
     from docker import Client
     from docker import errors as docker_error

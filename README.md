@@ -82,11 +82,21 @@ or
 
 	Usage:
 	    oradock.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]
-	    oradock.py create image IMAGE_NAME PASSWORD [options]
 	    oradock.py create database DATABASE PASSWORD MEMORY SERVICE_NAME [options]
+	    oradock.py create image IMAGE_NAME PASSWORD [options]
 	    oradock.py (-h | --help)
 	    oradock.py --version
-	
+
+	Operations:
+	    restore
+	                                        Restore and recovery database backup files.
+	    restart
+	                                        Restart and configure a container that already has datafiles restored.
+		create database
+											Create a new empty database.
+		create image
+	                                        Create an Oracle image.
+
 	Arguments:
 	    DATABASE
 	                                        Database(s) target name to work, separate by comma.
@@ -98,16 +108,6 @@ or
 	                                        Main service name for each database, separate by comma.
 	    IMAGE_NAME
 	                                        Image name to build.
-	
-	Operations:
-	    restore
-	                                        Restore and recovery database backup files.
-	    restart
-	                                        Restart and configure a container that already has datafiles restored.
-	    create image
-	                                        Create an Oracle image.
-		create database
-											Create a new empty database.
 	
 	Options:
 	    -k ORADOCK_HOME, --oradock-home=ORADOCK_HOME

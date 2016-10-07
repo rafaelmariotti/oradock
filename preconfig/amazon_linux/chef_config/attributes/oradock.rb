@@ -10,7 +10,7 @@ default['pyenv']['version']   = '3.5.1'
 default['pyenv']['root_path'] = '/root/.pyenv'
 default['pyenv']['default_modules']   = 'boto docopt'
 default['pyenv']['docker_module'] = 'docker-py'
-default['pyenv']['docker_module_version'] = '1.9'
+default['pyenv']['docker_module_version'] = '1.9.0'
 
 
 #yum settings - DO NOT CHANGE THIS

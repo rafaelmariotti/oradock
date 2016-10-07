@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
  
-oradock project is an Oracle Database 11g manager system integrated with Docker, where you can easily start a database from the scratch or download & recover a backup from s3 (aws).
-For more information, please visit https://github.com/rafaelmariotti/docker-compose-restore-database-oracle-ee-11g
+Oradock project is an Oracle Database 11g manager system integrated with Docker, where you can easily start a database from the scratch or download & recover a backup from s3 (aws).
+For more information, please visit https://github.com/rafaelmariotti/oradock
 
 Usage:
     oradock.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]

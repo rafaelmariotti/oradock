@@ -274,8 +274,8 @@ def check_file_or_directories_warn(file_or_dir, database):
         file_or_dir=file_or_dir.rstrip(',')
     
     for path in file_or_dir.split(','):
-        if not os.path.exists(file_or_dir):
-            logging.warn('file or directory \'%s\' does not exists' % file_or_dir)
+        if not os.path.exists(path):
+            logging.warn('file or directory \'%s\' does not exists' % path)
 
 
 def check_file_or_directories_error(file_or_dir, database):

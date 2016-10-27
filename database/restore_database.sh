@@ -2,7 +2,7 @@
 source ~/.bash_profile
 
 restore(){
-  backup_dir=$(echo "$1" | sed 's/,/ /g')
+  backup_dir=$1
   db_restore=$(echo "$2" | sed 's/,/ /g')
   db_memory_distribution=$3
   db_main_service=$4

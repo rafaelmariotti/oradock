@@ -149,7 +149,47 @@ EOF
       }
 EOF
 
+    sqlplus -s / as sysdba > /tmp/rename_redolog_${database}.sql << EOF
+    set lines 500;
+    set pages 500;
+    set feedback off;
+    set pagesize 0;
+    set termout off;
+
+    SELECT 'ALTER DATABASE RENAME FILE '''
+    || old_redo.redo_files
+    || ''' to '''
+    || new_redo.new_redo_files
+    || ''';' AS command
+  FROM
+    (SELECT group_number,
+      redo_files
+    FROM
+      (SELECT group# AS group_number,
+        listagg(member, ''',''') within GROUP (
+      ORDER BY group#) AS redo_files
+      FROM v\$logfile
+      GROUP BY group#
+      )
+    ) old_redo,
+    (SELECT group# AS group_number,
+      listagg('${data_dir}/${database}/redolog/'
+      || new_redologs, ''',''') within GROUP (
+    ORDER BY group#) AS new_redo_files
+    FROM
+      (SELECT redologs.*,
+        'redo0'
+        || rownum
+        || '.log' AS new_redologs
+      FROM v\$logfile redologs
+      )
+    GROUP BY group#
+    ) new_redo
+  WHERE old_redo.group_number = new_redo.group_number;
+EOF
+
     sqlplus / as sysdba >> /tmp/restore_${database}.log << EOF
+      @/tmp/rename_redolog_${database}.sql;
       alter database open resetlogs;
       alter system set service_names='${main_service}';
 

@@ -164,9 +164,9 @@ def download_file(s3_file, file_dest_path): #download a single file from s3 buck
             try_count = try_count + 1
             s3_file.get_contents_to_filename(file_dest_path)
             if os.path.getsize(file_dest_path) != s3_file.size:
-				logging.warning('file \'%s\' is corrupted. Downloading again (attempt: %s of %s)' % (file_dest_path, str(round(int(s3_file.size)/(1024*1024),2)), try_count, try_limit))
+                logging.warning('file \'%s\' is corrupted. Downloading again (attempt: %s of %s)' % (file_dest_path, str(round(int(s3_file.size)/(1024*1024),2)), try_count, try_limit))
 			else:
-				download_success=True
+			    download_success=True
         except boto.exception.S3ResponseError as error:
             logging.error('unexpected response from s3 [%s]' % error.args[1])
             sys.exit(-1)

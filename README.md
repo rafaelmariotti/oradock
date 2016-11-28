@@ -64,7 +64,7 @@ or
 
 * Install all python modules required:
 
-        pip install boto docopt docker-py
+        pip install boto docopt docker-py==1.9
 
 * Clone the repository:
 
@@ -161,9 +161,9 @@ or
 
 I would like to express my gratitude to the following friends who helped me to build this project:
 
-Ricardo Reis
-Nelson Estevam
-Giovani Dardani
+	Ricardo Reis
+	Nelson Estevam
+	Giovani Dardani
 
 ## 6. Considerations
 

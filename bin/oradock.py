@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """
  
-oradock project is an Oracle Database 11g manager system integrated with Docker, where you can easily start a database from the scratch or download & recover a backup from s3 (aws).
-For more information, please visit https://github.com/rafaelmariotti/docker-compose-restore-database-oracle-ee-11g
+Oradock project is an Oracle Database 11g manager system integrated with Docker, where you can easily start a database from the scratch or download & recover a backup from s3 (aws).
+For more information, please visit https://github.com/rafaelmariotti/oradock
 
 Usage:
     oradock.py (restore | restart) DATABASE MEMORY SERVICE_NAME [options]
@@ -154,19 +154,37 @@ def download_file(s3_file, file_dest_path): #download a single file from s3 buck
     else:
         logging.info('downloading file \'%s\' (%s mb)' % (file_dest_path, str(round(int(s3_file.size)/(1024*1024),2))))
 
-    try:
-        s3_file.get_contents_to_filename(file_dest_path)
-    except boto.exception.S3ResponseError as error:
-        logging.error('unexpected response from s3 [%s]' % error.args[1])
-        sys.exit(-1)
-    except boto.exception.S3DataError as error:
-        logging.error('error while retrieving data from s3 [%s]' % error.args[0])
-        sys.exit(-1)
-    except boto.exception.S3CopyError as error:
-        logging.error('error while copying data from s3 [%s]' % error.args[1])
-        sys.exit(-1)
-    except boto.exception.S3PermissionsError as error:
-        logging.error('permission denied on s3 file \'\' [%s]' % error.args[0])
+    try_limit=3 #times to attempt the download
+    timeout_sleep=5 #sleep time in seconds to wait after a timeout
+    try_count=0
+    download_success=False
+
+    while(download_success==False and try_count<try_limit):
+        try:
+            try_count = try_count + 1
+            s3_file.get_contents_to_filename(file_dest_path)
+            if os.path.getsize(file_dest_path) != s3_file.size:
+                logging.warning('file \'%s\' is corrupted. Downloading again (attempt: %s of %s)' % (file_dest_path, str(round(int(s3_file.size)/(1024*1024),2)), try_count, try_limit))
+            else:
+                download_success=True
+        except boto.exception.S3ResponseError as error:
+            logging.error('unexpected response from s3 [%s]' % error.args[1])
+            sys.exit(-1)
+        except boto.exception.S3DataError as error:
+            logging.error('error while retrieving data from s3 [%s]' % error.args[0])
+            sys.exit(-1)
+        except boto.exception.S3CopyError as error:
+            logging.error('error while copying data from s3 [%s]' % error.args[1])
+            sys.exit(-1)
+        except boto.exception.S3PermissionsError as error:
+            logging.error('permission denied on s3 file \'\' [%s]' % error.args[0])
+            sys.exit(-1)
+        except socket.timeout as error:
+            logging.warning('timeout occurred. Download attempt: %s of %s' %(try_count, try_limit))
+            time.sleep(timeout_sleep)
+
+    if(download_success==False):
+        logging.error('s3 download timeout reached or file is corrupted. Please check your connection and s3 bucket information')
         sys.exit(-1)
 
 
@@ -274,8 +292,8 @@ def check_file_or_directories_warn(file_or_dir, database):
         file_or_dir=file_or_dir.rstrip(',')
     
     for path in file_or_dir.split(','):
-        if not os.path.exists(file_or_dir):
-            logging.warn('file or directory \'%s\' does not exists' % file_or_dir)
+        if not os.path.exists(path):
+            logging.warn('file or directory \'%s\' does not exists' % path)
 
 
 def check_file_or_directories_error(file_or_dir, database):
@@ -661,7 +679,7 @@ def create_image(args, docker_client):
         try: 
             logging.debug(exec_output['stream'])
         except KeyError as error:
-            logging.error('docker build could not execute due to error [%s]' % exec_output['errorDetail']['message'])
+            logging.error('docker build could not execute due to error [%s]' % error['errorDetail']['message'])
             sys.exit(-1)
 
     rmtree(args['--oradock-home']+'/conf/dockerfile/config_files/database')

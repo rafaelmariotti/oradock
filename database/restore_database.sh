@@ -2,7 +2,7 @@
 source ~/.bash_profile
 
 restore(){
-  backup_dir=$(echo "$1" | sed 's/,/ /g')
+  backup_dir=$1
   db_restore=$(echo "$2" | sed 's/,/ /g')
   db_memory_distribution=$3
   db_main_service=$4
@@ -71,11 +71,7 @@ EOF
     sed -i "s|\*.control_files=|\#\*.control_files=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.db_create_file_dest=|\#\*.db_create_file_dest=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.db_file_name_convert=|\#\*.db_file_name_convert=|g" /tmp/new_pfile${database}.ora
-    sed -i "s|\*.db_create_online_log_dest_1=|\#\*.db_create_online_log_dest_1=|g" /tmp/new_pfile${database}.ora
-    sed -i "s|\*.db_create_online_log_dest_2=|\#\*.db_create_online_log_dest_2=|g" /tmp/new_pfile${database}.ora
-    sed -i "s|\*.db_create_online_log_dest_3=|\#\*.db_create_online_log_dest_3=|g" /tmp/new_pfile${database}.ora
-    sed -i "s|\*.db_create_online_log_dest_4=|\#\*.db_create_online_log_dest_4=|g" /tmp/new_pfile${database}.ora
-    sed -i "s|\*.db_create_online_log_dest_5=|\#\*.db_create_online_log_dest_5=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.db_create_online_log_dest_|\#\*.db_create_online_log_dest_|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.log_file_name_convert=|\#\*.log_file_name_convert=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.db_recovery_file_dest=|\#\*.db_recovery_file_dest=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.db_recovery_file_dest_size=|\#\*.db_recovery_file_dest_size=|g" /tmp/new_pfile${database}.ora
@@ -87,6 +83,39 @@ EOF
     sed -i "s|\*.memory_target=|\#\*.memory_target=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.processes=|\#\*.processes=|g" /tmp/new_pfile${database}.ora
     sed -i "s|\*.use_large_pages=|\#\*.use_large_pages=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_config=|\#\*.log_archive_config=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_1=|\#\*.log_archive_dest_1=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_2=|\#\*.log_archive_dest_2=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_3=|\#\*.log_archive_dest_3=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_4=|\#\*.log_archive_dest_4=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_5=|\#\*.log_archive_dest_5=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_6=|\#\*.log_archive_dest_6=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_7=|\#\*.log_archive_dest_7=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_8=|\#\*.log_archive_dest_8=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_9=|\#\*.log_archive_dest_9=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_10=|\#\*.log_archive_dest_10=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_11=|\#\*.log_archive_dest_11=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_12=|\#\*.log_archive_dest_12=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_13=|\#\*.log_archive_dest_13=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_14=|\#\*.log_archive_dest_14=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_15=|\#\*.log_archive_dest_15=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_16=|\#\*.log_archive_dest_16=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_17=|\#\*.log_archive_dest_17=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_18=|\#\*.log_archive_dest_18=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_19=|\#\*.log_archive_dest_19=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_20=|\#\*.log_archive_dest_20=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_21=|\#\*.log_archive_dest_21=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_22=|\#\*.log_archive_dest_22=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_23=|\#\*.log_archive_dest_23=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_24=|\#\*.log_archive_dest_24=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_25=|\#\*.log_archive_dest_25=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_26=|\#\*.log_archive_dest_26=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_27=|\#\*.log_archive_dest_27=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_28=|\#\*.log_archive_dest_28=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_29=|\#\*.log_archive_dest_29=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_30=|\#\*.log_archive_dest_30=|g" /tmp/new_pfile${database}.ora
+    sed -i "s|\*.log_archive_dest_31=|\#\*.log_archive_dest_31=|g" /tmp/new_pfile${database}.ora
+
     #setting min parameters to restore
     echo "*.control_files='${data_dir}/${database}/controlfile/control01.ctl','${data_dir}/${database}/controlfile/control02.ctl'" >> /tmp/new_pfile${database}.ora
     echo "*.db_create_file_dest='${data_dir}/${database}/datafile'" >> /tmp/new_pfile${database}.ora
@@ -149,7 +178,47 @@ EOF
       }
 EOF
 
+    sqlplus -s / as sysdba > /tmp/rename_redolog_${database}.sql << EOF
+    set lines 500;
+    set pages 500;
+    set feedback off;
+    set pagesize 0;
+    set termout off;
+
+    SELECT 'ALTER DATABASE RENAME FILE '''
+    || old_redo.redo_files
+    || ''' to '''
+    || new_redo.new_redo_files
+    || ''';' AS command
+  FROM
+    (SELECT group_number,
+      redo_files
+    FROM
+      (SELECT group# AS group_number,
+        listagg(member, ''',''') within GROUP (
+      ORDER BY group#) AS redo_files
+      FROM v\$logfile
+      GROUP BY group#
+      )
+    ) old_redo,
+    (SELECT group# AS group_number,
+      listagg('${data_dir}/${database}/redolog/'
+      || new_redologs, ''',''') within GROUP (
+    ORDER BY group#) AS new_redo_files
+    FROM
+      (SELECT redologs.*,
+        'redo0'
+        || rownum
+        || '.log' AS new_redologs
+      FROM v\$logfile redologs
+      )
+    GROUP BY group#
+    ) new_redo
+  WHERE old_redo.group_number = new_redo.group_number;
+EOF
+
     sqlplus / as sysdba >> /tmp/restore_${database}.log << EOF
+      @/tmp/rename_redolog_${database}.sql;
       alter database open resetlogs;
       alter system set service_names='${main_service}';
 

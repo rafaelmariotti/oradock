@@ -99,7 +99,7 @@ or
 
 	Arguments:
 	    DATABASE
-	                                        Database(s) target name to work, separate by comma.
+	                                        Database(s) target name to work, separated by comma.
 	    MEMORY
 	                                        Memory percent to reserve for each database, separate by comma.
 	    PASSWORD
@@ -123,7 +123,7 @@ or
 	
 	Restore options:
 	    -b BACKUP_DIR, --backup-directory=BACKUP_DIR
-	                                        Directory home path for each backup location [default: /backup/$DATABASE].
+	                                        Directory home path for each backup location, separate by comma [default: /backup/$DATABASE].
 	    -c CFILE_NAME, --control-file-name=CFILE_NAME
 	                                        Controlfile name to search among backup files to restore [default: controlfile.bkp].
 	    -s SPFILE_NAME, --spfile-name=SPFILE_NAME

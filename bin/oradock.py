@@ -679,7 +679,7 @@ def create_image(args, docker_client):
         try: 
             logging.debug(exec_output['stream'])
         except KeyError as error:
-            logging.error('docker build could not execute due to error [%s]' % error['errorDetail']['message'])
+            logging.error('docker build could not execute due to error [%s]' % str(error))
             sys.exit(-1)
 
     rmtree(args['--oradock-home']+'/conf/dockerfile/config_files/database')

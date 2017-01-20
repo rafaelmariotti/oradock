@@ -37,3 +37,9 @@ pyenv_script 'pip_install_oradock_dockerpy_dependenciess' do
   root_path     node['pyenv']['root_path']
   code          'pip install ' + node['pyenv']['docker_module'] + '==' + node['pyenv']['docker_module_version']
 end
+
+bash 'source_bash' do
+  code <<-EOF
+    source /root/.bash_profile
+  EOF
+end

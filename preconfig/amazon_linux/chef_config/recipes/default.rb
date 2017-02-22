@@ -11,7 +11,7 @@ include_recipe 'oradock_chef::mount_fs'
 
 include_recipe 'oradock_chef::yum_install'
 
-include_recipe 'oradock_chef::docker_install'
+include_recipe 'oradock_chef::docker_start'
 
 include_recipe 'oradock_chef::pyenv_install'
 

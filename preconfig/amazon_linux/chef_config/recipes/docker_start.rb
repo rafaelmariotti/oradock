@@ -7,11 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
-execute 'docker_install' do
-  command                       'wget -qO- https://get.docker.com/ | sh'
-  action                        :run
-end
-
 service 'docker' do
   action                        :start
 end

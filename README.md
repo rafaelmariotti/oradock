@@ -15,9 +15,9 @@ Oradock is a project to help people to manage their databases using Docker conta
 
 This project was build with the following software versions (any difference may change the project behavior):
 
-* Docker Engine **(version 1.10 or higher)**. For more information, check [Install Docker Engine Documentation](https://docs.docker.com/engine/installation/)
+* Docker Engine **(version 1.10 or higher)**. For more information, check [Install Docker Engine Documentation](https://docs.docker.com/engine/installation/). **IF YOUR ARE USING MAC OS, THEN INSTALL DOCKER FOR MAC (NOT THE TOOLBOX)!**
 
-* Python **(version 3.5.1 or higher)**. As a recommendation, you can use pyenv to configure your python environment. Fore more information, check [pyenv](https://github.com/yyuu/pyenv) 
+* Python **(version 3.5.1 or higher)**. As a recommendation, you can use pyenv to configure your python environment. Fore more information, check [pyenv](https://github.com/yyuu/pyenv)
 
 * Oracle install binary files **(only for ``create image`` command)**
 

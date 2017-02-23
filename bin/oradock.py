@@ -464,7 +464,7 @@ def set_docker_volumes(database_list, datafile_dir, oradock_home): #configure al
         container_volumes.append('/u01/app/oracle/diag/rdbms/' + database)
 
         container_volumes_config.append(datafile_dir +'/'+ database +':'+ datafile_dir +'/'+ database)
-        container_volumes_config.append('/var/log/oracle/' + database + ':/u01/app/oracle/diag/rdbms/' + database)
+        container_volumes_config.append('/tmp/' + database + ':/u01/app/oracle/diag/rdbms/' + database)
         if info.get('backup_directory')!='-':
             container_volumes.append(info.get('backup_directory'))
             container_volumes_config.append(info.get('backup_directory') +':'+ info.get('backup_directory'))
@@ -609,9 +609,9 @@ def restore_or_restart_or_create_database(args, database_list, docker_client): #
 
     for database, info in database_list.items():
         create_directory(args['--datafile-dir']+'/'+database)    
-        create_directory('/var/log/oracle/' + database)
+        create_directory('/tmp/' + database)
         change_directory_owner(args['--datafile-dir']+'/'+database, 501, 503)
-        change_directory_owner('/var/log/oracle/' + database, 501, 503)
+        change_directory_owner('/tmp/' + database, 501, 503)
         change_directory_owner(info.get('backup_directory'), 501, 503)
     (container_volumes, container_volumes_config)=set_docker_volumes(database_list, args['--datafile-dir'], args['--oradock-home'])
     container_port_config={1521 : args['--port']}

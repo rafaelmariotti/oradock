@@ -11,7 +11,7 @@ cp ${oradock_home}/preconfig/amazon_linux/chef_config/metadata.rb ${chef_base}/c
 
 cd ${chef_base}/chef-repo/cookbooks/
 knife cookbook site download yum
-knife cookbook site download filesystem
+knife cookbook site download filesystem 0.10.0
 knife cookbook site download lvm 1.1.0
 yum install git.x86_64 -y
 git clone https://github.com/rafaelmariotti/chef-pyenv.git ${chef_base}/chef-repo/cookbooks/pyenv

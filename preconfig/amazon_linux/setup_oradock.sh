@@ -18,9 +18,9 @@ knife cookbook site download yum 5.0.1 -f ${chef_base}/chef-repo/cookbooks/yum-5
 knife cookbook site download filesystem 0.10.0 -f ${chef_base}/chef-repo/cookbooks/filesystem-0.10.0.tar.gz -c ${chef_base}/chef-repo/.chef/knife.rb
 knife cookbook site download lvm 1.1.0 -f ${chef_base}/chef-repo/cookbooks/lvm-1.1.0.tar.gz -c ${chef_base}/chef-repo/.chef/knife.rb
 git clone https://github.com/sds/chef-pyenv ${chef_base}/chef-repo/cookbooks/pyenv
-tar -xzf ${chef_base}/chef-repo/cookbooks/yum-5.0.1.tar.gz -C ${chef_base}/chef-repo/cookbooks/yum
-tar -xzf ${chef_base}/chef-repo/cookbooks/filesystem-0.10.0.tar.gz -C ${chef_base}/chef-repo/cookbooks/filesystem
-tar -xzf ${chef_base}/chef-repo/cookbooks/lvm-1.1.0.tar.gz -C ${chef_base}/chef-repo/cookbooks/lvm
+tar -xzf ${chef_base}/chef-repo/cookbooks/yum-5.0.1.tar.gz -C ${chef_base}/chef-repo/cookbooks/
+tar -xzf ${chef_base}/chef-repo/cookbooks/filesystem-0.10.0.tar.gz -C ${chef_base}/chef-repo/cookbooks/
+tar -xzf ${chef_base}/chef-repo/cookbooks/lvm-1.1.0.tar.gz -C ${chef_base}/chef-repo/cookbooks/
 rm -f ${chef_base}/chef-repo/cookbooks/*.tar.gz
 
 #copy json file attributes

@@ -14,9 +14,9 @@ yes | cp ${oradock_home}/preconfig/amazon_linux/chef_config/recipes/*.rb ${chef_
 yes | cp ${oradock_home}/preconfig/amazon_linux/chef_config/metadata.rb ${chef_base}/chef-repo/cookbooks/oradock_chef/metadata.rb
 
 #downloading dependents cookbooks
-knife cookbook site download yum 5.0.1 -f ${chef_base}/chef-repo/cookbooks/yum-5.0.1.tar.gz
-knife cookbook site download filesystem 0.10.0 -f ${chef_base}/chef-repo/cookbooks/filesystem-0.10.0.tar.gz
-knife cookbook site download lvm 1.1.0 -f ${chef_base}/chef-repo/cookbooks/lvm-1.1.0.tar.gz
+knife cookbook site download yum 5.0.1 -f ${chef_base}/chef-repo/cookbooks/yum-5.0.1.tar.gz -c ${chef_base}/chef-repo/.chef/knife.rb
+knife cookbook site download filesystem 0.10.0 -f ${chef_base}/chef-repo/cookbooks/filesystem-0.10.0.tar.gz -c ${chef_base}/chef-repo/.chef/knife.rb
+knife cookbook site download lvm 1.1.0 -f ${chef_base}/chef-repo/cookbooks/lvm-1.1.0.tar.gz -c ${chef_base}/chef-repo/.chef/knife.rb
 git clone https://github.com/sds/chef-pyenv ${chef_base}/chef-repo/cookbooks/pyenv
 tar -xzf ${chef_base}/chef-repo/cookbooks/yum-5.0.1.tar.gz
 tar -xzf ${chef_base}/chef-repo/cookbooks/filesystem-0.10.0.tar.gz

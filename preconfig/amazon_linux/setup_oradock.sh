@@ -5,7 +5,7 @@ chef_base=/root
 source ~/.bash_profile
 
 #creating cookbook oradock_chef
-chef gerenate cookbook ${chef_base}/chef-repo/cookbooks/oradock_chef
+chef generate cookbook ${chef_base}/chef-repo/cookbooks/oradock_chef
 
 #copying rb files to oradock_chef cookbook
 mkdir -p ${chef_base}/chef-repo/cookbooks/oradock_chef/attributes

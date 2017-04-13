@@ -1,14 +1,17 @@
+#!/bin/bash
 oradock_home=/opt/oradock
 chef_base=/root
 
-cd ${chef_base}
-wget https://www.opscode.com/chef/install.sh
-bash ${chef_base}/install.sh
-wget http://github.com/opscode/chef-repo/tarball/master
-tar -zxf master
-mv chef-*-chef-repo-* chef-repo
-rm -f master
-cd ${chef_base}/chef-repo
-mkdir .chef
-echo "cookbook_path [ '${chef_base}/chef-repo/cookbooks' ]" > .chef/knife.rb
-echo -e "file_cache_path \"${chef_base}/chef-solo\"\ncookbook_path \"${chef_base}/chef-repo/cookbooks\"" > solo.rb
+source ~/.bash_profile
+
+#download and install chef
+wget https://packages.chef.io/files/stable/chefdk/1.3.40/el/7/chefdk-1.3.40-1.el7.x86_64.rpm
+rpm -ivh chefdk-1.3.40-1.el7.x86_64.rpm
+rm -f chefdk-1.3.40-1.el7.x86_64.rpm
+
+#configure chef
+mkdir -p ${chef_base}/chef-repo/cookbooks
+mkdir -p ${chef_base}/chef-repo/.chef
+
+echo "cookbook_path [ '${chef_base}/chef-repo/cookbooks' ]" > ${chef_base}/chef-repo/.chef/knife.rb
+echo -e "file_cache_path \"${chef_base}/chef-solo\"\ncookbook_path \"${chef_base}/chef-repo/cookbooks\"" > ${chef_base}/chef-repo/solo.rb
